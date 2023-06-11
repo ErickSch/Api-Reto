@@ -4,6 +4,7 @@ import cors from "cors";
 import itemsRoutes from "./items.routes.js";
 import session from "express-session";
 import cookieParser from 'cookie-parser';
+import traineeRoutes from "./trainee.routes.js";
 
 import passport from 'passport';
 import flash from 'express-flash';
@@ -49,6 +50,7 @@ app.use(cors({
   credentials: true,
 }));
 app.use(itemsRoutes);
+app.use(traineeRoutes);
 
 app.listen(5000, () => {
   console.log("Server is running on http://localhost:5000");
