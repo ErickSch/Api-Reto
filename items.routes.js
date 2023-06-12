@@ -30,7 +30,7 @@ router.post("/postpeople", postPeople);
 router.delete("/deletepeople/:id", deletePeople);
 router.put("/updatepeople/:id", updatePeople);
 router.get("/getprofile/:id", isAuthenticated, getProfile);
-router.get("/logout", postLogout);
+// router.get("/logout", postLogout);
 router.get("/isManager", getIsManager);
 router.get("/getemployee/:id", getEmployee);
 router.post("/registeremployee", postEmployee);

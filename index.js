@@ -5,25 +5,36 @@ import itemsRoutes from "./items.routes.js";
 import traineeRoutes from "./trainee.routes.js";
 import session from "express-session";
 import cookieParser from 'cookie-parser';
+import "dotenv/config";
 
 import passport from 'passport';
 import flash from 'express-flash';
 import methodOverride from 'method-override';
 import bodyParser from "body-parser";
+import connectSessionSequelize from 'connect-session-sequelize';
+import { sequelize } from "./db.js";
 
 import { initializePassport } from "./passport-config.js";
 
 const app = express();
+const SequelizeStore = connectSessionSequelize(session.Store);
 app.use(cookieParser('secret'));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+const sessionStore = new SequelizeStore({
+  db: sequelize,
+  tableName: 'dbo.Sessions',
+});
+
 app.use(session({
   secret: process.env.SESSION_SECRET, // Replace with your own secret key
+  store: sessionStore,
   resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
     secure: false,
-    maxAge: 1000 * 60 * 60 * 24
+    expires: new Date(Date.now() + 30*60*60*24*1000)
   },
 }));
 
@@ -51,6 +62,8 @@ app.use(cors({
 }));
 app.use(itemsRoutes);
 app.use(traineeRoutes);
+
+sessionStore.sync();
 
 app.listen(5000, () => {
   console.log("Server is running on http://localhost:5000");

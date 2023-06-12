@@ -275,8 +275,9 @@ export const isAuthenticated = (req, res, next) => {
 export const getSessionUser = async (req, res, next) => {
   try {
     const user = req.session.passport;
-    console.log('Session user')
-    console.log(req.user);
+    // console.log('Session user')
+    console.log('Session id')
+    console.log(req.sessionID);
     // console.log(req.isAuthenticated());
     res.send(user);
   } catch (error) {
