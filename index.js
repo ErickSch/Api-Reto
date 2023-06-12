@@ -2,9 +2,9 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import itemsRoutes from "./items.routes.js";
+import traineeRoutes from "./trainee.routes.js";
 import session from "express-session";
 import cookieParser from 'cookie-parser';
-import traineeRoutes from "./trainee.routes.js";
 
 import passport from 'passport';
 import flash from 'express-flash';
@@ -14,6 +14,8 @@ import bodyParser from "body-parser";
 import { initializePassport } from "./passport-config.js";
 
 const app = express();
+app.use(cookieParser('secret'));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
   secret: process.env.SESSION_SECRET, // Replace with your own secret key
   resave: false,
@@ -24,8 +26,6 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24
   },
 }));
-app.use(cookieParser('secret'));
-app.use(bodyParser.urlencoded({ extended: false }));
 
 // Add the CORS middleware before defining your routes
 app.use((req, res, next) => {
@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(methodOverride('_method'))
+// app.use(methodOverride('_method'))
 initializePassport(passport);
 
 app.use(express.json());

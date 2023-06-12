@@ -43,7 +43,7 @@ export const getIsManager = async (req, res) => {
 }
 
 export const postPeople = async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const data = req.body;
 
   const name = data.Name;
@@ -64,7 +64,7 @@ export const getEmployee = async (req, res) => {
   try {
     const result = await pool.request().query(`SELECT * FROM People2 WHERE Id = ${id};`);
     const person = result.recordset[0];
-    console.log(result);
+    // console.log(result);
 
     res.status(200).json(person);
   } catch (error) {
@@ -276,7 +276,7 @@ export const getSessionUser = async (req, res, next) => {
   try {
     const user = req.session.passport;
     console.log('Session user')
-    // console.log(req.session);
+    console.log(req.user);
     // console.log(req.isAuthenticated());
     res.send(user);
   } catch (error) {
