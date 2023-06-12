@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import itemsRoutes from "./items.routes.js";
 import traineeRoutes from "./trainee.routes.js";
+import videogameRoutes from "./videogame.routes.js";
 import session from "express-session";
 import cookieParser from 'cookie-parser';
 import "dotenv/config";
@@ -62,6 +63,7 @@ app.use(cors({
 }));
 app.use(itemsRoutes);
 app.use(traineeRoutes);
+app.use(videogameRoutes);
 
 sessionStore.sync();
 
