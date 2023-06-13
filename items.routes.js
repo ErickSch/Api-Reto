@@ -36,7 +36,8 @@ router.get("/getemployee/:id", getEmployee);
 router.post("/registeremployee", postEmployee);
 
 // Authentication 
-router.post("/register", postRegister);
+// router.post("/register", postRegister);
+router.get("/register", postRegister);
 router.post("/login", passport.authenticate('local', {failureMessage: true}),  postLogin);
 router.get("/login", getLogin);
 router.get("/getSessionUser", getSessionUser);

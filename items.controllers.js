@@ -146,7 +146,6 @@ export const updatePeople = async (req, res) => {
 //////////////////
 // Authentication 
 //////////////////
-//Id - Name - Age - City    
 export const postRegister = async (req, res) => {
   console.log("Post register");
   console.log("Authenticating");

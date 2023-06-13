@@ -5,39 +5,39 @@ import { connectDB } from './db.js';
 export async function initializePassport(passport) {
   const pool = await connectDB();
 
-  const getUserByUsername = async (username) => {
+  const getUserByGameUser = async (gameUser) => {
     const result = await pool
       .request()
-      .input('username', username)
-      .query('SELECT * FROM Users2 WHERE Username = @username');
+      .input('gameUser', gameUser)
+      .query('SELECT * FROM Users WHERE gameUser = @gameUser');
 
     return result.recordset[0];
   };
 
-  const getUserById = async (id) => {
+  const getUserByUserId = async (userId) => {
     const result = await pool
       .request()
-      .input('id', id)
-      .query('SELECT * FROM Users2 WHERE Id = @id');
+      .input('userId', userId)
+      .query('SELECT * FROM Users WHERE userId = @userId');
 
     return result.recordset[0];
   };
 
-  const strategy = new LocalStrategy(async (username, password, cb) => {
+  const strategy = new LocalStrategy(async (gameUser, pwd, cb) => {
     try {
-      const user = await getUserByUsername(username);
+      const user = await getUserByGameUser(gameUser);
 
       if (!user) {
-        console.log('No usernames registered');
-        return cb(null, false, { message: 'No usernames registered' });
+        console.log('No gameUsers registered');
+        return cb(null, false, { message: 'No gameUsers registered' });
       }
 
-      const hashedPassword = user.Password;
-      const passwordMatch = await bcrypt.compare(password, hashedPassword);
+      const hashedPwd = user.pwd;
+      const pwdMatch = await bcrypt.compare(pwd, hashedPwd);
 
-      if (!passwordMatch) {
-        console.log('Wrong password');
-        return cb(null, false, { message: 'Wrong password' });
+      if (!pwdMatch) {
+        console.log('Wrong pwd');
+        return cb(null, false, { message: 'Wrong pwd' });
       }
 
       return cb(null, user);
@@ -50,16 +50,16 @@ export async function initializePassport(passport) {
   passport.use(strategy);
 
   passport.serializeUser(function (user, cb) {
-    return cb(null, user.Id);
+    return cb(null, user.userId);
   });
 
-  passport.deserializeUser(async function (id, cb) {
+  passport.deserializeUser(async function (userId, cb) {
     try {
-      const user = await getUserById(id);
+      const user = await getUserByUserId(userId);
 
       if (!user) {
-        console.log('No user with that id');
-        return cb(new Error('No user with that id'));
+        console.log('No user with that userId');
+        return cb(new Error('No user with that userId'));
       }
 
       return cb(null, user);

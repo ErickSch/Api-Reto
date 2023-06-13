@@ -24,18 +24,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const sessionStore = new SequelizeStore({
   db: sequelize,
-  tableName: 'dbo.Sessions',
+  tableName: 'Sessions',
 });
 
 app.use(session({
-  secret: process.env.SESSION_SECRET, // Replace with your own secret key
-  store: sessionStore,
+  // secret: process.env.SESSION_SECRET, // Replace with your own secret key
+  secret: 'secret', // Replace with your own secret key
+  // store: sessionStore,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: {
     httpOnly: true,
     secure: false,
-    expires: new Date(Date.now() + 30*60*60*24*1000)
+    expires: new Date(Date.now() + 60*60*1000)
   },
 }));
 
@@ -65,7 +66,7 @@ app.use(itemsRoutes);
 app.use(traineeRoutes);
 app.use(videogameRoutes);
 
-sessionStore.sync();
+// sessionStore.sync();
 
 app.listen(5000, () => {
   console.log("Server is running on http://localhost:5000");
