@@ -14,11 +14,11 @@ export async function initializePassport(passport) {
     return result.recordset[0];
   };
 
-  const getUserByUserId = async (userId) => {
+  const getUserByID_CET = async (ID_CET) => {
     const result = await pool
       .request()
-      .input('userId', userId)
-      .query('SELECT * FROM Users WHERE userId = @userId');
+      .input('ID_CET', ID_CET)
+      .query('SELECT * FROM Users WHERE ID_CET = @ID_CET');
 
     return result.recordset[0];
   };
@@ -50,16 +50,16 @@ export async function initializePassport(passport) {
   passport.use(strategy);
 
   passport.serializeUser(function (user, cb) {
-    return cb(null, user.userId);
+    return cb(null, user.ID_CET);
   });
 
-  passport.deserializeUser(async function (userId, cb) {
+  passport.deserializeUser(async function (ID_CET, cb) {
     try {
-      const user = await getUserByUserId(userId);
+      const user = await getUserByID_CET(ID_CET);
 
       if (!user) {
-        console.log('No user with that userId');
-        return cb(new Error('No user with that userId'));
+        console.log('No user with that ID_CET');
+        return cb(new Error('No user with that ID_CET'));
       }
 
       return cb(null, user);

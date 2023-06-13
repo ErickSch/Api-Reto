@@ -5,7 +5,8 @@ import {
     getCursos,
     getCursosTomados,
     getEmpleado,
-    getEmpleados
+    getEmpleados,
+    getUser
 } from "./trainee.controllers.js";
 
 import passport from "passport";
@@ -16,6 +17,7 @@ router.get("/getEmpleado/:id", getEmpleado);
 router.get("/getEmpleados", getEmpleados);
 router.get("/getCursos", getCursos);
 router.get("/getCursosTomados/:id", getCursosTomados);
+router.get("/getUser/:id", getUser);
 
 
   

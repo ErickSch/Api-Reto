@@ -68,3 +68,21 @@ export const getCursos = async (req, res) => {
       res.status(500).json({ message: 'Error fetching cursos tomados' });
     }
   };
+
+
+
+export const getUser = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await pool.request().query(`SELECT * FROM Users WHERE ID_CET = ${id};`);
+    const user = result.recordset[0];
+  //   console.log('user');
+  //   console.log(user);
+  
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ message: 'Error fetching user' });
+  }
+};
