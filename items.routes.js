@@ -17,6 +17,7 @@ import {
     postEmployee,
     getEmployee,
     getIsAuthenticated,
+    getRegister
 } from "./items.controllers.js";
 
 import passport from "passport";
@@ -36,8 +37,8 @@ router.get("/getemployee/:id", getEmployee);
 router.post("/registeremployee", postEmployee);
 
 // Authentication 
-// router.post("/register", postRegister);
-router.get("/register", postRegister);
+router.post("/register", postRegister);
+router.get("/register", getRegister);
 router.post("/login", passport.authenticate('local', {failureMessage: true}),  postLogin);
 router.get("/login", getLogin);
 router.get("/getSessionUser", getSessionUser);

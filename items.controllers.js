@@ -146,6 +146,24 @@ export const updatePeople = async (req, res) => {
 //////////////////
 // Authentication 
 //////////////////
+export const getRegister = async (req, res) => {
+  console.log("get register");
+
+  try {
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash('123', saltRounds);
+    // Proceed with registration and store the hashed password in the database
+
+    const result = await pool.request().query(
+      `UPDATE Users SET pwd = '${hashedPassword}' WHERE userId = 6;`);
+
+    res.status(200).json({ message: 'User registered successfully' });
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).json({ message: 'Error registering user' });
+  }
+};
 export const postRegister = async (req, res) => {
   console.log("Post register");
   console.log("Authenticating");
@@ -166,9 +184,9 @@ export const postRegister = async (req, res) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     // Proceed with registration and store the hashed password in the database
+
     const result = await pool.request().query(
-      `INSERT INTO Users2 (username, password) VALUES ('${username}', '${hashedPassword}')`
-    );
+      `INSERT INTO Users2 (username, password) VALUES ('${username}', '${hashedPassword}')`);
 
     res.status(200).json({ message: 'User registered successfully' });
   } catch (error) {
