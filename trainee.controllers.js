@@ -19,6 +19,56 @@ export const getEmpleado = async (req, res) => {
     }
   };
 
+  export const putEmpleado = async (req, res) => {
+    try {
+      const {
+        ID_CET,
+        apellidoMat,
+        apellidoPat,
+        clerical,
+        descTitulo,
+        escuela,
+        esp,
+        estado,
+        fechNac,
+        grad,
+        isManager,
+        nombre,
+        origenCand,
+        pais,
+        posAct,
+        posIngreso,
+        remuneracion, 
+      } = req.body;
+  
+      await pool.query(
+        `UPDATE Empleado SET
+         apellidoMat ='${apellidoMat}', 
+         apellidoPat ='${apellidoPat}', 
+         clerical ='${clerical}' 
+         descTitulo ='${descTitulo}' 
+         escuela ='${escuela}' 
+         esp ='${esp}' 
+         estado ='${estado}' 
+         fechNac ='${fechNac}' 
+         grad ='${grad}' 
+         isManager ='${isManager}' 
+         nombre ='${nombre}' 
+         origenCand ='${origenCand}' 
+         pais ='${pais}' 
+         posAct ='${posAct}' 
+         posIngreso ='${posIngreso}' 
+         remuneracion ='${remuneracion}' 
+         WHERE ID_CET='${ID_CET}'`
+      );
+  
+      res.status(200).json({ message: 'Empleado updated successfully' });
+    } catch (error) {
+      console.error('Error updating empleado:', error);
+      res.status(500).json({ message: 'Error updating empleado' });
+    }
+  };
+
 
 
 export const getEmpleados = async (req, res) => {
