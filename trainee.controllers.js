@@ -20,6 +20,7 @@ export const getEmpleado = async (req, res) => {
   };
 
   export const putEmpleado = async (req, res) => {
+    
     try {
       const {
         ID_CET,
@@ -40,27 +41,45 @@ export const getEmpleado = async (req, res) => {
         posIngreso,
         remuneracion, 
       } = req.body;
-  
-      await pool.query(
-        `UPDATE Empleado SET
-         apellidoMat ='${apellidoMat}', 
-         apellidoPat ='${apellidoPat}', 
-         clerical ='${clerical}' 
-         descTitulo ='${descTitulo}' 
-         escuela ='${escuela}' 
-         esp ='${esp}' 
-         estado ='${estado}' 
-         fechNac ='${fechNac}' 
-         grad ='${grad}' 
-         isManager ='${isManager}' 
-         nombre ='${nombre}' 
-         origenCand ='${origenCand}' 
-         pais ='${pais}' 
-         posAct ='${posAct}' 
-         posIngreso ='${posIngreso}' 
-         remuneracion ='${remuneracion}' 
-         WHERE ID_CET='${ID_CET}'`
-      );
+      
+      console.log(`UPDATE Empleado SET
+          apellidoMat ='${apellidoMat}', 
+          apellidoPat ='${apellidoPat}', 
+          clerical ='${clerical}' 
+          descTitulo ='${descTitulo}' 
+          escuela ='${escuela}' 
+          esp ='${esp}' 
+          estado ='${estado}' 
+          fechNac ='${fechNac}' 
+          grad ='${grad}' 
+          isManager ='${isManager}' 
+          nombre ='${nombre}' 
+          origenCand ='${origenCand}' 
+          pais ='${pais}' 
+          posAct ='${posAct}' 
+          posIngreso ='${posIngreso}' 
+          remuneracion ='${remuneracion}' 
+          WHERE ID_CET='${ID_CET}'`);
+      // await pool.query(
+        //   `UPDATE Empleado SET
+      //    apellidoMat ='${apellidoMat}', 
+      //    apellidoPat ='${apellidoPat}', 
+      //    clerical ='${clerical}' 
+      //    descTitulo ='${descTitulo}' 
+      //    escuela ='${escuela}' 
+      //    esp ='${esp}' 
+      //    estado ='${estado}' 
+      //    fechNac ='${fechNac}' 
+      //    grad ='${grad}' 
+      //    isManager ='${isManager}' 
+      //    nombre ='${nombre}' 
+      //    origenCand ='${origenCand}' 
+      //    pais ='${pais}' 
+      //    posAct ='${posAct}' 
+      //    posIngreso ='${posIngreso}' 
+      //    remuneracion ='${remuneracion}' 
+      //    WHERE ID_CET='${ID_CET}'`
+      // );
   
       res.status(200).json({ message: 'Empleado updated successfully' });
     } catch (error) {

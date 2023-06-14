@@ -12,20 +12,20 @@ import passport from 'passport';
 import flash from 'express-flash';
 import methodOverride from 'method-override';
 import bodyParser from "body-parser";
-import connectSessionSequelize from 'connect-session-sequelize';
-import { sequelize } from "./db.js";
+// import connectSessionSequelize from 'connect-session-sequelize';
+// import { sequelize } from "./db.js";
 
 import { initializePassport } from "./passport-config.js";
 
 const app = express();
-const SequelizeStore = connectSessionSequelize(session.Store);
+// const SequelizeStore = connectSessionSequelize(session.Store);
 app.use(cookieParser('secret'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const sessionStore = new SequelizeStore({
-  db: sequelize,
-  tableName: 'Sessions',
-});
+// const sessionStore = new SequelizeStore({
+//   db: sequelize,
+//   tableName: 'Sessions',
+// });
 
 app.use(session({
   // secret: process.env.SESSION_SECRET, // Replace with your own secret key
