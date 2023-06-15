@@ -121,6 +121,24 @@ export const getCursos = async (req, res) => {
       res.status(500).json({ message: 'Error fetching cursos' });
     }
   };
+  
+  export const getCursosEncuadre = async (req, res) => {
+    
+    const id = req.params.id;
+  
+    try {
+      // const result = await pool.request().query(`SELECT * FROM vw_UserCursos WHERE ID_CET = ${id};`);
+      const result = await pool.request().query(`SELECT * FROM vw_UserCursos WHERE ID_CET = 5;`);
+      const infoCursos = result.recordset;
+      // console.log('infoCursos por usuario ' + id);
+      // console.log(infoCursos);
+    
+      res.status(200).json(infoCursos);
+    } catch (error) {
+      console.error('Error fetching cursos tomados:', error);
+      res.status(500).json({ message: 'Error fetching cursos tomados' });
+    }
+    };
 
   export const getCursosTomados = async (req, res) => {
     const id = req.params.id;
@@ -153,6 +171,22 @@ export const getUser = async (req, res) => {
   } catch (error) {
     console.error('Error fetching user:', error);
     res.status(500).json({ message: 'Error fetching user' });
+  }
+};
+
+export const getPerfilEmpleado = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await pool.request().query(`EXEC sp_perfilGlobalTrainee @id =  ${id};`);
+    const trainee = result.recordset[0];
+  //   console.log('trainee');
+  //   console.log(trainee);
+  
+    res.status(200).json(trainee);
+  } catch (error) {
+    console.error('Error fetching trainee profile:', error);
+    res.status(500).json({ message: 'Error fetching trainee profile' });
   }
 };
 

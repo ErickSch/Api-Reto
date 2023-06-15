@@ -3,9 +3,11 @@ import { Router } from "express";
 
 import { 
     getCursos,
+    getCursosEncuadre,
     getCursosTomados,
     getEmpleado,
     getEmpleados,
+    getPerfilEmpleado,
     getUser,
     putEmpleado
 } from "./trainee.controllers.js";
@@ -19,7 +21,10 @@ router.get("/getEmpleados", getEmpleados);
 router.put("/putEmpleado", putEmpleado);
 router.get("/getCursos", getCursos);
 router.get("/getCursosTomados/:id", getCursosTomados);
+router.get("/getCursosEncuadre/:id", getCursosEncuadre);
 router.get("/getUser/:id", getUser);
+router.get("/getPerfilEmpleado/:id", getPerfilEmpleado);
+
 
 
   
