@@ -7,6 +7,7 @@ import {
     getCursosTomados,
     getEmpleado,
     getEmpleados,
+    getHistoricoTrainee,
     getPerfilEmpleado,
     getUser,
     putEmpleado
@@ -22,6 +23,7 @@ router.put("/putEmpleado", putEmpleado);
 router.get("/getCursos", getCursos);
 router.get("/getCursosTomados/:id", getCursosTomados);
 router.get("/getCursosEncuadre/:id", getCursosEncuadre);
+router.get("/getHistoricoTrainee/:id", getHistoricoTrainee);
 router.get("/getUser/:id", getUser);
 router.get("/getPerfilEmpleado/:id", getPerfilEmpleado);
 

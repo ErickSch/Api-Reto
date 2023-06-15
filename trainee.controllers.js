@@ -155,6 +155,23 @@ export const getCursos = async (req, res) => {
       res.status(500).json({ message: 'Error fetching cursos tomados' });
     }
   };
+  
+  export const getHistoricoTrainee = async (req, res) => {
+    const id = req.params.id;
+  
+    try {
+      // const result = await pool.request().query(`SELECT * FROM vw_empleadoCalificacionTrainee WHERE ID_CET = ${id};`);
+      const result = await pool.request().query(`SELECT * FROM vw_empleadoCalificacionTrainee WHERE ID_CET = 1;`);
+      const cursosTomados = result.recordset;
+      // console.log('cursosTomados por usuario ' + id);
+      // console.log(cursosTomados);
+    
+      res.status(200).json(cursosTomados);
+    } catch (error) {
+      console.error('Error fetching cursos tomados:', error);
+      res.status(500).json({ message: 'Error fetching cursos tomados' });
+    }
+  };
 
 
 
