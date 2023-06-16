@@ -1,21 +1,37 @@
+
+
+
+
+  
+
+
+
+
 import { Router } from "express";
-
-
-import { 
-    //Poner tus controllers
+import {
+    getTopScore,
+    getMonedas,
+    updateMonedas,
+    updateSetMonedas,
+    updateTopScore,
+    insertBuyCosmetic
 } from "./videogame.controllers.js";
 
 import passport from "passport";
 
 const router = Router();
 
-// Ejemplos 
-// router.get("/getEmpleado/:id", getEmpleado);
-// router.get("/getEmpleados", getEmpleados);
-// router.get("/getCursos", getCursos);
+router.put("/updateMonedas", updateMonedas);
 
+router.get("/getTopScore", getTopScore);
 
-  
+router.get("/getMonedas", getMonedas);
+
+router.put("/updateTopScore", updateTopScore);
+
+router.put("/updatSetMonedas", updateSetMonedas);
+
+router.post("/insertBuyCosmetic", insertBuyCosmetic);
 
 
 export default router;
