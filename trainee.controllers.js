@@ -104,6 +104,19 @@ export const getEmpleados = async (req, res) => {
       res.status(500).json({ message: 'Error fetching empleados' });
     }
   };
+
+  export const getEmpleadosIdNombre = async (req, res) => {
+  
+    try {
+      const result = await pool.request().query(`SELECT ID_CET, nombre, apellidoPat, apellidoMat FROM Empleado;`);
+      const empleados = result.recordset;
+    
+      res.status(200).json(empleados);
+    } catch (error) {
+      console.error('Error fetching empleados:', error);
+      res.status(500).json({ message: 'Error fetching empleados' });
+    }
+  };
   
 
 export const postEmpleado = async (req, res) => {
@@ -275,4 +288,77 @@ export const getPerfilEmpleado = async (req, res) => {
 };
 
 
+export const getAreasInteresEmpleado = async (req, res) => {
+  const id = req.params.id;
 
+  try {
+    const result = await pool.request().query(`SELECT * FROM vw_areaDeInteres WHERE ID_CET = ${id};`);
+    const areasEmpleado = result.recordset;
+
+    res.status(200).json(areasEmpleado);
+  } catch (error) {
+    console.error('Error fetching areasEmpleado:', error);
+    res.status(500).json({ message: 'Error fetching areasEmpleado' });
+  }
+};
+
+export const getAreasInteres = async (req, res) => {
+
+  try {
+    const result = await pool.request().query(`SELECT * FROM areasCatalogo;`);
+    const areas = result.recordset;
+  
+    res.status(200).json(areas);
+  } catch (error) {
+    console.error('Error fetching areas:', error);
+    res.status(500).json({ message: 'Error fetching areas' });
+  }
+};
+
+export const postAreaInteres = async (req, res) => {
+  const id = req.params.id;
+
+  console.log(req.body);
+
+  // const areaInteresId = 1;
+  
+  try {
+    const areaInteresId = req.body.selectedArea
+    // Check if the user already exists in the database
+    const existingArea = await pool.request().query(
+      `SELECT * FROM areaInteres WHERE empleadoAreaId = ${id} AND nombreAreaId = ${areaInteresId};
+      `
+    );
+
+    if (existingArea.recordset.length > 0) {
+      // Area already exists, return an error message
+      return res.status(400).json({ message: 'Area already exists' });
+    }
+
+    await pool.request().query(`INSERT INTO areaInteres (nombreAreaId, empleadoAreaId) VALUES (${areaInteresId}, ${id});`);
+
+    res.status(200).json({message: "Area added successfully"});
+  } catch (error) {
+    console.error('Error adding area:', error);
+    res.status(500).json({ message: 'Error adding area' });
+  }
+};
+
+
+export const deleteAreaInteres = async (req, res) => {
+  const id = req.params.id;
+  const areaId = req.params.area
+
+  console.log(`id: ${id}, area: ${areaId}`)
+
+  try {
+
+
+    await pool.request().query(`DELETE FROM areaInteres WHERE empleadoAreaId = ${id} AND nombreAreaId = ${areaId};`);
+
+    res.status(200).json({message: "Area deleted successfully"});
+  } catch (error) {
+    console.error('Error deleting area:', error);
+    res.status(500).json({ message: 'Error deleting area' });
+  }
+};
