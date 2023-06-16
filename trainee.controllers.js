@@ -42,44 +42,44 @@ export const getEmpleado = async (req, res) => {
         remuneracion, 
       } = req.body;
       
-      console.log(`UPDATE Empleado SET
-          apellidoMat ='${apellidoMat}', 
-          apellidoPat ='${apellidoPat}', 
-          clerical ='${clerical}' 
-          descTitulo ='${descTitulo}' 
-          escuela ='${escuela}' 
-          esp ='${esp}' 
-          estado ='${estado}' 
-          fechNac ='${fechNac}' 
-          grad ='${grad}' 
-          isManager ='${isManager}' 
-          nombre ='${nombre}' 
-          origenCand ='${origenCand}' 
-          pais ='${pais}' 
-          posAct ='${posAct}' 
-          posIngreso ='${posIngreso}' 
-          remuneracion ='${remuneracion}' 
-          WHERE ID_CET='${ID_CET}'`);
-      // await pool.query(
-        //   `UPDATE Empleado SET
-      //    apellidoMat ='${apellidoMat}', 
-      //    apellidoPat ='${apellidoPat}', 
-      //    clerical ='${clerical}' 
-      //    descTitulo ='${descTitulo}' 
-      //    escuela ='${escuela}' 
-      //    esp ='${esp}' 
-      //    estado ='${estado}' 
-      //    fechNac ='${fechNac}' 
-      //    grad ='${grad}' 
-      //    isManager ='${isManager}' 
-      //    nombre ='${nombre}' 
-      //    origenCand ='${origenCand}' 
-      //    pais ='${pais}' 
-      //    posAct ='${posAct}' 
-      //    posIngreso ='${posIngreso}' 
-      //    remuneracion ='${remuneracion}' 
-      //    WHERE ID_CET='${ID_CET}'`
-      // );
+      // console.log(`UPDATE Empleado SET
+      //     apellidoMat ='${apellidoMat}', 
+      //     apellidoPat ='${apellidoPat}', 
+      //     clerical ='${clerical}' 
+      //     descTitulo ='${descTitulo}' 
+      //     escuela ='${escuela}' 
+      //     esp ='${esp}' 
+      //     estado ='${estado}' 
+      //     fechNac ='${fechNac}' 
+      //     grad ='${grad}' 
+      //     isManager ='${isManager}' 
+      //     nombre ='${nombre}' 
+      //     origenCand ='${origenCand}' 
+      //     pais ='${pais}' 
+      //     posAct ='${posAct}' 
+      //     posIngreso ='${posIngreso}' 
+      //     remuneracion ='${remuneracion}' 
+      //     WHERE ID_CET='${ID_CET}'`);
+      await pool.query(
+          `UPDATE Empleado SET
+         apellidoMat ='${apellidoMat}', 
+         apellidoPat ='${apellidoPat}', 
+         clerical ='${clerical}', 
+         descTitulo ='${descTitulo}', 
+         escuela ='${escuela}', 
+         esp ='${esp}', 
+         estado ='${estado}',
+         fechNac ='${fechNac}', 
+         grad ='${grad}', 
+         isManager ='${isManager}', 
+         nombre ='${nombre}', 
+         origenCand ='${origenCand}', 
+         pais ='${pais}', 
+         posAct ='${posAct}', 
+         posIngreso ='${posIngreso}', 
+         remuneracion ='${remuneracion}' 
+         WHERE ID_CET='${ID_CET}'`
+      );
   
       res.status(200).json({ message: 'Empleado updated successfully' });
     } catch (error) {
@@ -104,6 +104,73 @@ export const getEmpleados = async (req, res) => {
       res.status(500).json({ message: 'Error fetching empleados' });
     }
   };
+  
+
+export const postEmpleado = async (req, res) => {
+  console.log(req.body);
+  const {
+    apellidoMat,
+    apellidoPat,
+    clerical,
+    descTitulo,
+    escuela,
+    esp,
+    estado,
+    fechNac,
+    grad,
+    isManager,
+    nombre,
+    origenCand,
+    pais,
+    posAct,
+    posIngreso,
+    remuneracion,
+  } = req.body
+  console.log('postEmpleado')
+  pool.query(
+    `EXEC sp_insertTrainee
+    @fechNac = '${fechNac}' , 
+    @pais = '${pais}' , 
+    @estado = '${estado}' , 
+    @origenCand = '${origenCand}' , 
+    @posIngreso = '${posIngreso}',
+    @posAct = '${posAct}',
+    @clerical = '${clerical}' , 
+    @descTitulo = '${descTitulo}' , 
+    @grad = '${grad}' , 
+    @esp = '${esp}' , 
+    @nombre = '${nombre}' , 
+    @apellidoPat = '${apellidoPat}' , 
+    @apellidoMat = '${apellidoMat}' , 
+    @escuela = '${escuela}' , 
+    @isManager = ${isManager} , 
+    @remuneracion = '${remuneracion}',
+    @pPicture = NULL,
+    @jefeId = 1`
+    , (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(200).json(results.rows)
+  });
+};
+
+export const deleteEmpleado = async (req, res) => {
+  console.log('deleteEmpleado');
+  const id = req.params.id;
+  try {
+
+    await pool.request().query(`
+    DELETE FROM Rotacion WHERE ID_CET = ${id}
+    DELETE FROM Empleado WHERE ID_CET = ${id};
+    `);
+
+    res.status(200).json({message: "Empleado deleted successfully"});
+  } catch (error) {
+    console.error('Error deleting empleado:', error);
+    res.status(500).json({ message: 'Error deleting empleado' });
+  }
+};
 
 
 
