@@ -14,9 +14,12 @@ import {
     getEmpleadosIdNombre,
     getHistoricoTrainee,
     getPerfilEmpleado,
+    getPotenciales,
+    getRotaciones,
     getUser,
     postAreaInteres,
     postEmpleado,
+    postRotacion,
     putEmpleado
 } from "./trainee.controllers.js";
 
@@ -46,7 +49,11 @@ router.get("/getAreasInteres", getAreasInteres);
 router.post("/postAreaInteres/:id", postAreaInteres);
 router.delete("/deleteAreaInteres/:id/:area", deleteAreaInteres);
 
+router.get("/getRotaciones", getRotaciones);
+router.post("/postRotacion", postRotacion);
 
+
+router.get("/getPotenciales", getPotenciales);
   
 
 

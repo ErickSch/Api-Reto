@@ -362,3 +362,48 @@ export const deleteAreaInteres = async (req, res) => {
     res.status(500).json({ message: 'Error deleting area' });
   }
 };
+
+export const getRotaciones = async (req, res) => {
+
+  try {
+    const result = await pool.request().query(`SELECT * FROM vw_empleadoCalificacion;`);
+    const calificacion = result.recordset;
+  //   console.log('calificacion');
+  //   console.log(calificacion);
+  
+    res.status(200).json(calificacion);
+  } catch (error) {
+    console.error('Error fetching calificacion:', error);
+    res.status(500).json({ message: 'Error fetching calificacion' });
+  }
+};
+
+export const getPotenciales = async (req, res) => {
+
+  try {
+    const result = await pool.request().query(`SELECT * FROM potencialCatalogo;`);
+    const potencial = result.recordset;
+
+    res.status(200).json(potencial);
+  } catch (error) {
+    console.error('Error fetching potencial:', error);
+    res.status(500).json({ message: 'Error fetching potencial' });
+  }
+};
+
+
+
+export const postRotacion = async (req, res) => {
+  const {
+    calificacion,
+    comentarios,
+    potencial,
+    rotId
+  } = req.body.evaluacionForm
+  pool.query( `EXEC sp_insertEval @calificacion = ${calificacion}, @comentario = '${comentarios}', @potencial = ${potencial}, @rotId = ${rotId}`, (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(200).json(results.rows)
+  });
+};
