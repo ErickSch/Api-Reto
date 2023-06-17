@@ -1,7 +1,11 @@
 
 
 
+/*
+Estas son las rutas para conectarse a las funciones 
+de videogame.controllers
 
+*/
   
 
 

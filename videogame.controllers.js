@@ -1,6 +1,14 @@
+/*
+Este  programa se conecta a la BD para realizar  diversas operaciones
+CRUD, sus parametros los recibe de el sitio en REACT y desde ahi se mandan
+a llamar estas funciones.
+*/
+
 import {connectDB} from "./db.js";
 
 const pool = await connectDB();
+
+
 
 
 export const getMonedas = async (req, res) => {
