@@ -4,6 +4,45 @@ const pool = await connectDB();
 
 // Definición de controladores para cada ruta definida.
 
+// Registrar el inicio de sesión del usuario.
+export const postLogin = async (req, res) => {
+  
+  try {
+    console.log("postLogin successful");
+    console.log(req.session)
+    res.status(200).json({ message: 'Login successful' });
+    } catch (error) {
+      console.error('Error logging in:', error);
+      res.status(500).json({ message: 'Error logging in' });
+    }
+
+};
+
+// Obtener el usuario que ha iniciado sesión exitosamente.
+export const getLogin = async (req, res) => {
+  console.log("getLogin");
+  if(req.session.passport.user) {
+    res.send({loggedIn: true, user: req.session.user});
+  } else {
+    res.send({loggedIn: false});
+  }
+}
+
+// Obtener el id del usuario de la sesión.
+export const getSessionUser = async (req, res, next) => {
+  try {
+    const user = req.session.passport;
+    // console.log('Session user')
+    console.log('Session id')
+    console.log(req.sessionID);
+    // console.log(req.isAuthenticated());
+    res.send(user);
+  } catch (error) {
+    console.error('Error fetching session user:', error);
+    res.status(500).json({ message: 'Error fetching session user' });
+  }
+
+};
 
 // Obtener información de empleado especificado.
 export const getEmpleado = async (req, res) => {

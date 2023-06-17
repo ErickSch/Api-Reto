@@ -20,7 +20,10 @@ import {
     postAreaInteres,
     postEmpleado,
     postRotacion,
-    putEmpleado
+    putEmpleado,
+    postLogin,
+    getLogin,
+    getSessionUser
 } from "./trainee.controllers.js";
 
 import passport from "passport";
@@ -28,6 +31,11 @@ import passport from "passport";
 // Definición de rutas API.
 
 const router = Router();
+
+// Rutas necesarias para el inicio de sesión.
+router.post("/login", passport.authenticate('local', {failureMessage: true}),  postLogin);
+router.get("/login", getLogin);
+router.get("/getSessionUser", getSessionUser);
 
 // Rutas necesarias para endpoints de empleado.
 router.get("/getEmpleado/:id", getEmpleado);

@@ -11,18 +11,14 @@ import passport from 'passport';
 import flash from 'express-flash';
 import bodyParser from "body-parser";
 
-
 import { initializePassport } from "./passport-config.js";
 
 const app = express();
 app.use(cookieParser('secret'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
-
 app.use(session({
-  // secret: process.env.SESSION_SECRET, // Replace with your own secret key
-  secret: 'secret', // Replace with your own secret key
+  secret: 'secret', // Llave secreta
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -32,7 +28,7 @@ app.use(session({
   },
 }));
 
-// Permisos para recibir peticiones de nuestra página en localhost.
+// Headers necesarios para recibir peticiones de la página en localhost.
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -40,7 +36,6 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
-
 
 app.use(flash())
 app.use(passport.initialize())
@@ -55,7 +50,7 @@ app.use(cors({
   credentials: true,
 }));
 
-// Rutas de los controladores.
+// Rutas que se utilizarán para los endpoints.
 app.use(traineeRoutes);
 app.use(videogameRoutes);
 
