@@ -2,15 +2,16 @@ import {connectDB} from "./db.js";
 
 const pool = await connectDB();
 
+// Definición de controladores para cada ruta definida.
 
+
+// Obtener información de empleado especificado.
 export const getEmpleado = async (req, res) => {
     const id = req.params.id;
   
     try {
       const result = await pool.request().query(`SELECT * FROM Empleado WHERE ID_CET = ${id};`);
       const empleado = result.recordset[0];
-    //   console.log('empleado');
-    //   console.log(empleado);
     
       res.status(200).json(empleado);
     } catch (error) {
@@ -19,6 +20,7 @@ export const getEmpleado = async (req, res) => {
     }
   };
 
+  // Editar datos de empleado especificado.
   export const putEmpleado = async (req, res) => {
     
     try {
@@ -42,24 +44,6 @@ export const getEmpleado = async (req, res) => {
         remuneracion, 
       } = req.body;
       
-      // console.log(`UPDATE Empleado SET
-      //     apellidoMat ='${apellidoMat}', 
-      //     apellidoPat ='${apellidoPat}', 
-      //     clerical ='${clerical}' 
-      //     descTitulo ='${descTitulo}' 
-      //     escuela ='${escuela}' 
-      //     esp ='${esp}' 
-      //     estado ='${estado}' 
-      //     fechNac ='${fechNac}' 
-      //     grad ='${grad}' 
-      //     isManager ='${isManager}' 
-      //     nombre ='${nombre}' 
-      //     origenCand ='${origenCand}' 
-      //     pais ='${pais}' 
-      //     posAct ='${posAct}' 
-      //     posIngreso ='${posIngreso}' 
-      //     remuneracion ='${remuneracion}' 
-      //     WHERE ID_CET='${ID_CET}'`);
       await pool.query(
           `UPDATE Empleado SET
          apellidoMat ='${apellidoMat}', 
@@ -89,14 +73,12 @@ export const getEmpleado = async (req, res) => {
   };
 
 
-
+// Obtener una lista con la información de todos los empleados.
 export const getEmpleados = async (req, res) => {
   
     try {
       const result = await pool.request().query(`SELECT * FROM Empleado;`);
       const empleados = result.recordset;
-    //   console.log('empleados');
-    //   console.log(empleados);
     
       res.status(200).json(empleados);
     } catch (error) {
@@ -105,6 +87,7 @@ export const getEmpleados = async (req, res) => {
     }
   };
 
+  // Obtener id y nombre de todos los empleados registrados.
   export const getEmpleadosIdNombre = async (req, res) => {
   
     try {
@@ -118,9 +101,8 @@ export const getEmpleados = async (req, res) => {
     }
   };
   
-
+// Registrar un empleado nuevo.
 export const postEmpleado = async (req, res) => {
-  console.log(req.body);
   const {
     apellidoMat,
     apellidoPat,
@@ -139,7 +121,6 @@ export const postEmpleado = async (req, res) => {
     posIngreso,
     remuneracion,
   } = req.body
-  console.log('postEmpleado')
   pool.query(
     `EXEC sp_insertTrainee
     @fechNac = '${fechNac}' , 
@@ -168,8 +149,8 @@ export const postEmpleado = async (req, res) => {
   });
 };
 
+// Eliminar empleado con ID_CET especificado.
 export const deleteEmpleado = async (req, res) => {
-  console.log('deleteEmpleado');
   const id = req.params.id;
   try {
 
@@ -186,14 +167,12 @@ export const deleteEmpleado = async (req, res) => {
 };
 
 
-
+// Obtener la información de todos los cursos registrados.
 export const getCursos = async (req, res) => {
   
     try {
       const result = await pool.request().query(`SELECT * FROM Cursos;`);
       const cursos = result.recordset;
-    //   console.log('cursos');
-    //   console.log(cursos);
     
       res.status(200).json(cursos);
     } catch (error) {
@@ -202,16 +181,13 @@ export const getCursos = async (req, res) => {
     }
   };
   
+  // Obtener la información de los cursos correspondientes a un encuadre especificado.
   export const getCursosEncuadre = async (req, res) => {
-    
     const id = req.params.id;
   
     try {
-      // const result = await pool.request().query(`SELECT * FROM vw_UserCursos WHERE ID_CET = ${id};`);
       const result = await pool.request().query(`SELECT * FROM vw_UserCursos WHERE ID_CET = 5;`);
       const infoCursos = result.recordset;
-      // console.log('infoCursos por usuario ' + id);
-      // console.log(infoCursos);
     
       res.status(200).json(infoCursos);
     } catch (error) {
@@ -220,14 +196,13 @@ export const getCursos = async (req, res) => {
     }
     };
 
+  // Obtener información de los cursos tomados por un empleado especificado.
   export const getCursosTomados = async (req, res) => {
     const id = req.params.id;
   
     try {
       const result = await pool.request().query(`SELECT dbo.fn_cursosCompletados(${id});`);
       const cursosTomados = result.recordset[0];
-      // console.log('cursosTomados por usuario ' + id);
-      // console.log(cursosTomados);
     
       res.status(200).json(cursosTomados);
     } catch (error) {
@@ -236,15 +211,13 @@ export const getCursos = async (req, res) => {
     }
   };
   
+  // Obtener el histórico de rotaciones de el empleado especificado.
   export const getHistoricoTrainee = async (req, res) => {
     const id = req.params.id;
   
     try {
-      // const result = await pool.request().query(`SELECT * FROM vw_empleadoCalificacionTrainee WHERE ID_CET = ${id};`);
       const result = await pool.request().query(`SELECT * FROM vw_empleadoCalificacionTrainee WHERE ID_CET = 1;`);
       const cursosTomados = result.recordset;
-      // console.log('cursosTomados por usuario ' + id);
-      // console.log(cursosTomados);
     
       res.status(200).json(cursosTomados);
     } catch (error) {
@@ -254,15 +227,13 @@ export const getCursos = async (req, res) => {
   };
 
 
-
+// Obtener la información de usuario del usuario especificado.
 export const getUser = async (req, res) => {
   const id = req.params.id;
 
   try {
     const result = await pool.request().query(`SELECT * FROM Users WHERE ID_CET = ${id};`);
     const user = result.recordset[0];
-  //   console.log('user');
-  //   console.log(user);
   
     res.status(200).json(user);
   } catch (error) {
@@ -271,14 +242,13 @@ export const getUser = async (req, res) => {
   }
 };
 
+// Obtener la información del perfil del empleado especificado.
 export const getPerfilEmpleado = async (req, res) => {
   const id = req.params.id;
 
   try {
     const result = await pool.request().query(`EXEC sp_perfilGlobalTrainee @id =  ${id};`);
     const trainee = result.recordset[0];
-  //   console.log('trainee');
-  //   console.log(trainee);
   
     res.status(200).json(trainee);
   } catch (error) {
@@ -287,7 +257,7 @@ export const getPerfilEmpleado = async (req, res) => {
   }
 };
 
-
+// Obtener información de las áreas de interés del empleado especificado.
 export const getAreasInteresEmpleado = async (req, res) => {
   const id = req.params.id;
 
@@ -302,6 +272,7 @@ export const getAreasInteresEmpleado = async (req, res) => {
   }
 };
 
+// Obtener la lista del catálogo de áreas de interés.
 export const getAreasInteres = async (req, res) => {
 
   try {
@@ -315,16 +286,11 @@ export const getAreasInteres = async (req, res) => {
   }
 };
 
+// Agregar una nueva área de interés al empleado especificado.
 export const postAreaInteres = async (req, res) => {
-  const id = req.params.id;
-
-  console.log(req.body);
-
-  // const areaInteresId = 1;
-  
+  const id = req.params.id;  
   try {
     const areaInteresId = req.body.selectedArea
-    // Check if the user already exists in the database
     const existingArea = await pool.request().query(
       `SELECT * FROM areaInteres WHERE empleadoAreaId = ${id} AND nombreAreaId = ${areaInteresId};
       `
@@ -344,7 +310,7 @@ export const postAreaInteres = async (req, res) => {
   }
 };
 
-
+// Eliminar área de interés del empleado especificado.
 export const deleteAreaInteres = async (req, res) => {
   const id = req.params.id;
   const areaId = req.params.area
@@ -352,7 +318,6 @@ export const deleteAreaInteres = async (req, res) => {
   console.log(`id: ${id}, area: ${areaId}`)
 
   try {
-
 
     await pool.request().query(`DELETE FROM areaInteres WHERE empleadoAreaId = ${id} AND nombreAreaId = ${areaId};`);
 
@@ -363,13 +328,12 @@ export const deleteAreaInteres = async (req, res) => {
   }
 };
 
+// Obtener información de todas las rotaciones registradas.
 export const getRotaciones = async (req, res) => {
 
   try {
     const result = await pool.request().query(`SELECT * FROM vw_empleadoCalificacion;`);
     const calificacion = result.recordset;
-  //   console.log('calificacion');
-  //   console.log(calificacion);
   
     res.status(200).json(calificacion);
   } catch (error) {
@@ -378,6 +342,7 @@ export const getRotaciones = async (req, res) => {
   }
 };
 
+// Obtener la lista del catálogo de potenciales.
 export const getPotenciales = async (req, res) => {
 
   try {
@@ -391,8 +356,7 @@ export const getPotenciales = async (req, res) => {
   }
 };
 
-
-
+// Registrar una nueva rotación.
 export const postRotacion = async (req, res) => {
   const {
     calificacion,
